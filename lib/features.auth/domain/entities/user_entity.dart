@@ -15,7 +15,7 @@ class UserEntity {
       throw Exception('Username can not be empty');
     }
     if (password.trim().length < 4) {
-      throw Exception('Password must be at least 5characters long');
+      throw Exception('Password must be at least 5 characters long');
     }
   }
 }
