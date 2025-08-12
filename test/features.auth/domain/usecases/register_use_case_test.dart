@@ -1,6 +1,8 @@
 import 'package:flutter_test/flutter_test.dart';
 import 'package:flutter_twitter_clone_bloc/features.auth/domain/usecases/register_use_case.dart';
 
+import '../../data/repository/MockAuthRepository.dart';
+
 void main() {
   group('RegisterUseCase test', () {
     test('Should register user succussfully and return token', () async {
@@ -8,7 +10,9 @@ void main() {
       final String username = "nipun@123";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase();
+      RegisterUseCase registerUseCase = RegisterUseCase(
+        authRepository: MockAuthRepository(),
+      );
       final result = await registerUseCase.call(
         email: email,
         username: username,
@@ -22,7 +26,9 @@ void main() {
       final String username = "nipun@123";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase();
+      RegisterUseCase registerUseCase = RegisterUseCase(
+        authRepository: MockAuthRepository(),
+      );
       expect(
         () async => await registerUseCase.call(
           email: email,
@@ -38,7 +44,9 @@ void main() {
       final String username = "";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase();
+      RegisterUseCase registerUseCase = RegisterUseCase(
+        authRepository: MockAuthRepository(),
+      );
       expect(
         () async => await registerUseCase.call(
           email: email,
@@ -54,7 +62,9 @@ void main() {
       final String username = "nipun@123";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase();
+      RegisterUseCase registerUseCase = RegisterUseCase(
+        authRepository: MockAuthRepository(),
+      );
       expect(
         () async => await registerUseCase.call(
           email: email,
@@ -72,7 +82,9 @@ void main() {
         final String username = "nipun@123";
         final String password = "nip";
 
-        RegisterUseCase registerUseCase = RegisterUseCase();
+        RegisterUseCase registerUseCase = RegisterUseCase(
+          authRepository: MockAuthRepository(),
+        );
         expect(
           () async => await registerUseCase.call(
             email: email,

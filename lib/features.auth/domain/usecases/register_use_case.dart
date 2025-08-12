@@ -1,6 +1,11 @@
 import 'package:flutter_twitter_clone_bloc/features.auth/domain/entities/user_entity.dart';
+import 'package:flutter_twitter_clone_bloc/features.auth/domain/repository/auth_repository.dart';
 
 class RegisterUseCase {
+  final AuthRepository authRepository;
+
+  RegisterUseCase({required this.authRepository});
+
   Future<String> call({
     required String email,
     required String username,
@@ -11,6 +16,9 @@ class RegisterUseCase {
       username: username,
       password: password,
     );
-    return 'token'; //repository.register()
+
+    final token = await authRepository.register(user: user);
+
+    return token;
   }
 }
