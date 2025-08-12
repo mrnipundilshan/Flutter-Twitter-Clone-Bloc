@@ -7,3 +7,10 @@ class MockAuthRepository implements AuthRepository {
     return 'token';
   }
 }
+
+class MockAuthWithErrorRepository implements AuthRepository {
+  @override
+  Future<String> register({required UserEntity user}) async {
+    throw Exception('Registration failed');
+  }
+}

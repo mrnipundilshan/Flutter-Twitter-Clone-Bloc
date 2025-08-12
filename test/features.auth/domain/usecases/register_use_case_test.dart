@@ -5,14 +5,21 @@ import '../../data/repository/MockAuthRepository.dart';
 
 void main() {
   group('RegisterUseCase test', () {
+    late RegisterUseCase registerUseCase;
+    late RegisterUseCase registerWithErrorUseCase;
+
+    setUp(() {
+      registerUseCase = RegisterUseCase(authRepository: MockAuthRepository());
+      registerWithErrorUseCase = RegisterUseCase(
+        authRepository: MockAuthWithErrorRepository(),
+      );
+    });
+
     test('Should register user succussfully and return token', () async {
       final String email = "nipun@gmail.com";
       final String username = "nipun@123";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase(
-        authRepository: MockAuthRepository(),
-      );
       final result = await registerUseCase.call(
         email: email,
         username: username,
@@ -26,9 +33,6 @@ void main() {
       final String username = "nipun@123";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase(
-        authRepository: MockAuthRepository(),
-      );
       expect(
         () async => await registerUseCase.call(
           email: email,
@@ -44,9 +48,6 @@ void main() {
       final String username = "";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase(
-        authRepository: MockAuthRepository(),
-      );
       expect(
         () async => await registerUseCase.call(
           email: email,
@@ -62,9 +63,6 @@ void main() {
       final String username = "nipun@123";
       final String password = "nipun@123";
 
-      RegisterUseCase registerUseCase = RegisterUseCase(
-        authRepository: MockAuthRepository(),
-      );
       expect(
         () async => await registerUseCase.call(
           email: email,
@@ -82,9 +80,6 @@ void main() {
         final String username = "nipun@123";
         final String password = "nip";
 
-        RegisterUseCase registerUseCase = RegisterUseCase(
-          authRepository: MockAuthRepository(),
-        );
         expect(
           () async => await registerUseCase.call(
             email: email,
@@ -95,5 +90,20 @@ void main() {
         );
       },
     );
+
+    test('Should return an error with empty username', () async {
+      final String email = "nipun@gmail.com";
+      final String username = "nipun@123";
+      final String password = "nipun@123";
+
+      expect(
+        () async => await registerWithErrorUseCase.call(
+          email: email,
+          username: username,
+          password: password,
+        ),
+        throwsA(isA<Exception>()),
+      );
+    });
   });
 }
