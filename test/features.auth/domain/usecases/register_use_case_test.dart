@@ -5,7 +5,7 @@ void main() {
   group('RegisterUseCase test', () {
     test('Should register user succussfully and return token', () async {
       final String email = "nipun@gmail.com";
-      final String username = "nipun@12s3";
+      final String username = "nipun@123";
       final String password = "nipun@123";
 
       RegisterUseCase registerUseCase = RegisterUseCase();
@@ -19,7 +19,23 @@ void main() {
 
     test('Should return an error with empty email', () async {
       final String email = "";
-      final String username = "nipun@12s3";
+      final String username = "nipun@123";
+      final String password = "nipun@123";
+
+      RegisterUseCase registerUseCase = RegisterUseCase();
+      expect(
+        () async => await registerUseCase.call(
+          email: email,
+          username: username,
+          password: password,
+        ),
+        throwsA(isA<Exception>()),
+      );
+    });
+
+    test('Should return an error with empty username', () async {
+      final String email = "nipun@gmail.com";
+      final String username = "";
       final String password = "nipun@123";
 
       RegisterUseCase registerUseCase = RegisterUseCase();
@@ -35,7 +51,7 @@ void main() {
 
     test('Should return an error if email have wrong format', () async {
       final String email = "fgdrfgfg";
-      final String username = "nipun@12s3";
+      final String username = "nipun@123";
       final String password = "nipun@123";
 
       RegisterUseCase registerUseCase = RegisterUseCase();
@@ -53,7 +69,7 @@ void main() {
       'Should return an error if password do not at least 5 characters',
       () async {
         final String email = "";
-        final String username = "nipun@12s3";
+        final String username = "nipun@123";
         final String password = "nip";
 
         RegisterUseCase registerUseCase = RegisterUseCase();
