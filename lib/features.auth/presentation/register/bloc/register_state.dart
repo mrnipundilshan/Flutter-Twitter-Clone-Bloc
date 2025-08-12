@@ -1,6 +1,6 @@
-part of 'register_bloc.dart';
+import 'package:equatable/equatable.dart';
 
-sealed class RegisterState extends Equatable {
+abstract class RegisterState extends Equatable {
   const RegisterState();
 
   @override
