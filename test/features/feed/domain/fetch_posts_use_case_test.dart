@@ -6,16 +6,34 @@ import '../data/repository/mock_posts_repository.dart';
 
 void main() {
   group('FetchFeedUseCase test', () {
+    late MockPostsRepository mockPostsRepository;
+    late MockPostsWithErrorRepository mockPostsWithErrorRepository;
+
+    setUp(() {
+      mockPostsRepository = MockPostsRepository();
+      mockPostsWithErrorRepository = MockPostsWithErrorRepository();
+    });
+
     test('Should return list of posts', () async {
-      MockPostsRepository mockPostsRepository = MockPostsRepository();
-      FetchPostsUseCase fetchPostUseCase = FetchPostsUseCase(
+      FetchPostsUseCase fetchPostsUseCase = FetchPostsUseCase(
         postRepository: mockPostsRepository,
       );
 
-      final result = await fetchPostUseCase.call();
+      final result = await fetchPostsUseCase.call();
 
       expect(result, isA<List<PostEntity>>());
       expect(result.length, greaterThan(0));
+    });
+
+    test('Should return an error if repository is compromise', () async {
+      FetchPostsUseCase fetchPostUseCase = FetchPostsUseCase(
+        postRepository: mockPostsWithErrorRepository,
+      );
+
+      expect(
+        () async => await fetchPostUseCase.call(),
+        throwsA(isA<Exception>()),
+      );
     });
   });
 }

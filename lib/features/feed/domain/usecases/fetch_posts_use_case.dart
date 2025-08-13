@@ -9,13 +9,5 @@ class FetchPostsUseCase {
   Future<List<PostEntity>> call() async {
     final result = postRepository.fetchPosts();
     return result;
-    return [
-      PostEntity(
-        userId: '1',
-        username: 'nipun@123',
-        content: 'Nipun Dilshan',
-        createdAt: DateTime.now(),
-      ),
-    ];
   }
 }

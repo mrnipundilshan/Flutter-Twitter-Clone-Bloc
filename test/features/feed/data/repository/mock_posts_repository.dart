@@ -14,3 +14,10 @@ class MockPostsRepository implements PostRepository {
     ];
   }
 }
+
+class MockPostsWithErrorRepository implements PostRepository {
+  @override
+  Future<List<PostEntity>> fetchPosts() {
+    throw Exception('Something Broke');
+  }
+}
