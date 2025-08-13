@@ -1,12 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/data/datasources/session_local_data_source.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/data/repository/MockAuthRepository.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/services/user_session_service.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/usecases/login_use_case.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/usecases/register_use_case.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/screens/login_page.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/bloc/register_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/screens/register_page.dart';
+import 'package:flutter_twitter_clone_bloc/features/splash/splash_page.dart';
 
 void main() {
   runApp(const MainApp());
@@ -17,6 +21,12 @@ class MainApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final FlutterSecureStorage secureStorage = const FlutterSecureStorage();
+    final SessionLocaDataSource sessionLocalDataSource =
+        SessionLocalDataSourceImpl(secureStorage: secureStorage);
+    final UserSessionService userSessionService = UserSessionService(
+      sessionLocalDataSource: sessionLocalDataSource,
+    );
     return MultiBlocProvider(
       providers: [
         BlocProvider(
@@ -24,12 +34,14 @@ class MainApp extends StatelessWidget {
             registerUseCase: RegisterUseCase(
               authRepository: MockAuthRepository(),
             ),
+            userSessionService: userSessionService,
           ),
         ),
 
         BlocProvider(
           create: (_) => LoginBloc(
             loginUseCase: LoginUseCase(authRepository: MockAuthRepository()),
+            userSessionService: userSessionService,
           ),
         ),
       ],
@@ -38,13 +50,13 @@ class MainApp extends StatelessWidget {
         theme: ThemeData(
           colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         ),
-        initialRoute: '/login',
+
         routes: {
           '/register': (_) => const RegisterPage(),
           '/login': (_) => const LoginPage(),
           '/home': (_) => const HomePage(),
         },
-        home: RegisterPage(),
+        home: SplashPage(userSessionService: userSessionService),
       ),
     );
   }

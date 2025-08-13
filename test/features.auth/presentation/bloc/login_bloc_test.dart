@@ -6,20 +6,25 @@ import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_state.dart';
 
 import '../../data/repository/MockAuthRepository.dart';
+import '../../domain/services/mock_user_session_service.dart';
 
 void main() {
   group('LoginBloc test', () {
     late LoginBloc loginBloc;
     late LoginBloc loginBlocWithRepositoryError;
+    MockUserSessionService mockUserSessionService = MockUserSessionService();
 
     setUp(() {
       loginBloc = LoginBloc(
         loginUseCase: LoginUseCase(authRepository: MockAuthRepository()),
+        userSessionService: mockUserSessionService,
       );
+
       loginBlocWithRepositoryError = LoginBloc(
         loginUseCase: LoginUseCase(
           authRepository: MockAuthWithErrorRepository(),
         ),
+        userSessionService: mockUserSessionService,
       );
     });
 

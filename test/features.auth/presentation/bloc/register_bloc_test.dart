@@ -6,20 +6,24 @@ import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/b
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/bloc/register_state.dart';
 
 import '../../data/repository/MockAuthRepository.dart';
+import '../../domain/services/mock_user_session_service.dart';
 
 void main() {
   group('RegisterBloc test', () {
     late RegisterBloc registerBloc;
     late RegisterBloc registerBlocWithRepositoryError;
+    MockUserSessionService mockUserSessionService = MockUserSessionService();
 
     setUp(() {
       registerBloc = RegisterBloc(
         registerUseCase: RegisterUseCase(authRepository: MockAuthRepository()),
+        userSessionService: mockUserSessionService,
       );
       registerBlocWithRepositoryError = RegisterBloc(
         registerUseCase: RegisterUseCase(
           authRepository: MockAuthWithErrorRepository(),
         ),
+        userSessionService: mockUserSessionService,
       );
     });
 
