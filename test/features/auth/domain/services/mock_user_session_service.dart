@@ -19,7 +19,6 @@ class MockUserSessionService implements UserSessionService {
   Future<void> persistToken({required String token}) async {}
 
   @override
-  // TODO: implement sessionLocalDataSource
   SessionLocaDataSource get sessionLocalDataSource =>
       throw UnimplementedError();
 }

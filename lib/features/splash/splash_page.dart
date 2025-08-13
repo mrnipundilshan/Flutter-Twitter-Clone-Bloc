@@ -18,8 +18,8 @@ class _SplashPageState extends State<SplashPage> {
 
   Future<void> _checkSession() async {
     final isLoggedIn = await widget.userSessionService.isLoggedIn();
-    print("isLoggeedIn: $isLoggedIn");
-    print("isLoggeedIn: ${widget.userSessionService.getUserSession()}");
+    //print("isLoggeedIn: $isLoggedIn");
+    //print("isLoggeedIn: ${widget.userSessionService.getUserSession()}");
     if (!mounted) return;
     if (isLoggedIn) {
       Navigator.pushReplacementNamed(context, '/home');
