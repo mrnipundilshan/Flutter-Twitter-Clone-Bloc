@@ -8,7 +8,11 @@ class UserEntity {
     required this.username,
     required this.password,
   }) {
-    if (email.trim().isEmpty || !email.contains('@')) {
+    if (email.trim().isEmpty &&
+        username.trim().isEmpty &&
+        password.trim().isEmpty) {
+      throw Exception('Fill all fields');
+    } else if (email.trim().isEmpty || !email.contains('@')) {
       throw Exception('Invalid email');
     }
     if (username.trim().isEmpty) {

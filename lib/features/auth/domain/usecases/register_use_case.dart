@@ -1,5 +1,5 @@
-import 'package:flutter_twitter_clone_bloc/features.auth/domain/entities/user_entity.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/domain/repository/auth_repository.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/entities/user_entity.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/repository/auth_repository.dart';
 
 class RegisterUseCase {
   final AuthRepository authRepository;

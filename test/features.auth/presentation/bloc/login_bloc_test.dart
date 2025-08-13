@@ -1,9 +1,9 @@
 import 'package:bloc_test/bloc_test.dart';
 import 'package:flutter_test/flutter_test.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/domain/usecases/login_use_case.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/login/bloc/login_bloc.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/login/bloc/login_event.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/login/bloc/login_state.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/usecases/login_use_case.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_bloc.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_event.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_state.dart';
 
 import '../../data/repository/MockAuthRepository.dart';
 

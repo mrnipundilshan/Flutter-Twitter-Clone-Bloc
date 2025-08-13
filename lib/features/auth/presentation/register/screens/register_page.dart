@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/register/bloc/register_bloc.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/register/bloc/register_event.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/register/bloc/register_state.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/bloc/register_bloc.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/bloc/register_event.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/bloc/register_state.dart';
 
 class RegisterPage extends StatefulWidget {
   const RegisterPage({super.key});
@@ -53,6 +53,12 @@ class _RegisterPageState extends State<RegisterPage> {
                   decoration: const InputDecoration(labelText: 'Password'),
                 ),
                 const SizedBox(height: 20),
+                TextButton(
+                  onPressed: () {
+                    Navigator.pushReplacementNamed(context, '/login');
+                  },
+                  child: const Text("Have an acoount? Login here"),
+                ),
                 ElevatedButton(
                   onPressed: _onRegisterPressed,
                   child: const Text("Register"),

@@ -1,5 +1,5 @@
-import 'package:flutter_twitter_clone_bloc/features.auth/domain/models/LoginParams.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/domain/repository/auth_repository.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/models/LoginParams.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/repository/auth_repository.dart';
 
 class LoginUseCase {
   final AuthRepository authRepository;

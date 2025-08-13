@@ -21,7 +21,7 @@ class MockAuthWithErrorRepository implements AuthRepository {
   }
 
   @override
-  Future<String> login({required LoginParams loginParams}) {
-    throw Exception('Login Failed');
+  Future<String> login({required LoginParams loginParams}) async {
+    throw Exception('Login failed');
   }
 }

@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/login/bloc/login_bloc.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/login/bloc/login_event.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/login/bloc/login_state.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/register/bloc/register_bloc.dart';
-import 'package:flutter_twitter_clone_bloc/features.auth/presentation/register/bloc/register_state.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_bloc.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_event.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_state.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -35,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
         child: BlocListener<LoginBloc, LoginState>(
           listener: (context, state) {
             if (state is LoginSuccess) {
-              Navigator.pushReplacementNamed(context, './home');
+              Navigator.pushReplacementNamed(context, '/home');
             }
             if (state is LoginFailure) {
               ScaffoldMessenger.of(context).showSnackBar(
@@ -66,6 +64,12 @@ class _LoginPageState extends State<LoginPage> {
                     decoration: const InputDecoration(labelText: 'Password'),
                   ),
                   const SizedBox(height: 20),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.pushReplacementNamed(context, '/register');
+                    },
+                    child: const Text("Don't have an acoount? Register here"),
+                  ),
                   ElevatedButton(
                     onPressed: _onLoginPressed,
                     child: const Text("Login"),
