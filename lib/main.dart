@@ -10,6 +10,9 @@ import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/screens/login_page.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/bloc/register_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/screens/register_page.dart';
+import 'package:flutter_twitter_clone_bloc/features/feed/data/repository/mock_posts_repository.dart';
+import 'package:flutter_twitter_clone_bloc/features/feed/domain/usecases/fetch_posts_use_case.dart';
+import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/feed_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/screens/feed_page.dart';
 import 'package:flutter_twitter_clone_bloc/features/splash/splash_page.dart';
 
@@ -43,6 +46,14 @@ class MainApp extends StatelessWidget {
           create: (_) => LoginBloc(
             loginUseCase: LoginUseCase(authRepository: MockAuthRepository()),
             userSessionService: userSessionService,
+          ),
+        ),
+
+        BlocProvider(
+          create: (_) => FeedBloc(
+            fetchPostsUseCase: FetchPostsUseCase(
+              postRepository: MockPostsRepository(),
+            ),
           ),
         ),
       ],

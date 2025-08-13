@@ -17,6 +17,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   ) async {
     emit(FeedLoading());
     try {
+      //await Future.delayed(const Duration(seconds: 2));
       final posts = await fetchPostsUseCase.call();
       emit(FeedLoaded(posts: posts));
     } catch (e) {
