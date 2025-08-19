@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/feed_bloc.dart';
@@ -25,7 +26,24 @@ class _FeedPageState extends State<FeedPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Feed')),
+      backgroundColor: Colors.black,
+
+      appBar: AppBar(
+        backgroundColor: Colors.black,
+        elevation: 0.5,
+        leading: Padding(
+          padding: EdgeInsets.all(8),
+          child: CircleAvatar(backgroundColor: Colors.grey[800]),
+        ),
+        centerTitle: true,
+        title: Image.asset('assets/twitter.png', width: 32, height: 32),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(CupertinoIcons.mail, color: Colors.white),
+          ),
+        ],
+      ),
       body: BlocBuilder<FeedBloc, FeedState>(
         builder: (context, state) {
           if (state is FeedLoading) {
@@ -47,7 +65,8 @@ class _FeedPageState extends State<FeedPage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () => _showCreatePostDialog(context),
-        child: const Icon(Icons.add),
+        backgroundColor: Colors.blue,
+        child: const Icon(CupertinoIcons.add, color: Colors.white),
       ),
     );
   }
