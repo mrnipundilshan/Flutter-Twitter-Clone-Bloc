@@ -13,11 +13,21 @@ class MockPostsRepository implements PostRepository {
       ),
     ];
   }
+
+  @override
+  Future<bool> createPost({required PostEntity post}) async {
+    return true;
+  }
 }
 
 class MockPostsWithErrorRepository implements PostRepository {
   @override
   Future<List<PostEntity>> fetchPosts() {
+    throw Exception('Something Broke');
+  }
+
+  @override
+  Future<bool> createPost({required PostEntity post}) async {
     throw Exception('Something Broke');
   }
 }
