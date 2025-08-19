@@ -7,41 +7,27 @@ class MockPostsRepository implements PostRepository {
     return [
       PostEntity(
         userId: '1',
-        username: 'nipun',
-        content: 'nipun content',
-        createdAt: DateTime.now(),
-      ),
-      PostEntity(
-        userId: '2',
-        username: 'chamuditha',
-        content: 'chamuditha content',
-        createdAt: DateTime.now(),
-      ),
-      PostEntity(
-        userId: '3',
-        username: 'dilru',
-        content: 'dilru content',
-        createdAt: DateTime.now(),
-      ),
-      PostEntity(
-        userId: '4',
-        username: 'sena',
-        content: 'sena content',
-        createdAt: DateTime.now(),
-      ),
-      PostEntity(
-        userId: '5',
-        username: 'sandu',
-        content: 'sandu content',
+        username: 'nipun@123',
+        content: 'nipun',
         createdAt: DateTime.now(),
       ),
     ];
+  }
+
+  @override
+  Future<bool> createPost({required PostEntity post}) async {
+    return true;
   }
 }
 
 class MockPostsWithErrorRepository implements PostRepository {
   @override
   Future<List<PostEntity>> fetchPosts() {
+    throw Exception('Something Broke');
+  }
+
+  @override
+  Future<bool> createPost({required PostEntity post}) async {
     throw Exception('Something Broke');
   }
 }

@@ -15,7 +15,7 @@ void main() {
 
     test('Should create a post successfully', () async {
       String userId = "1234";
-      String username = "fabrice";
+      String username = "nipun@123";
       String content = "best flutter content";
       String imageUrl = "";
 
@@ -50,8 +50,32 @@ void main() {
           content: content,
           imageUrl: imageUrl,
         ),
-        throwsA(isA<Exception>),
+        throwsA(isA<Exception>()),
       );
     });
+
+    test(
+      'Should return an Exception if there is an error with the repo',
+      () async {
+        String userId = "1234";
+        String username = "nipun@123";
+        String content = "best flutter content";
+        String imageUrl = "";
+
+        CreatePostUseCase createPostUseCase = CreatePostUseCase(
+          postRepository: mockPostsWithErrorRepository,
+        );
+
+        expect(
+          () async => await createPostUseCase.call(
+            userId: userId,
+            username: username,
+            content: content,
+            imageUrl: imageUrl,
+          ),
+          throwsA(isA<Exception>()),
+        );
+      },
+    );
   });
 }
