@@ -38,8 +38,7 @@ class PostCard extends StatelessWidget {
                         const Spacer(),
                         Text(
                           style: const TextStyle(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
+                            fontSize: 14,
                             color: Colors.white,
                           ),
                           formatDate(post.createdAt),

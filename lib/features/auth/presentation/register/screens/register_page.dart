@@ -75,6 +75,7 @@ class _RegisterPageState extends State<RegisterPage> {
                         label: 'Email',
                         keyboardType: TextInputType.emailAddress,
                       ),
+                      SizedBox(height: 20),
                       buildTextField(
                         controller: _usernameController,
                         label: 'Username',
