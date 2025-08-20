@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_event.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_state.dart';
+import 'package:flutter_twitter_clone_bloc/features/feed/presentation/widgets/build_text_Field.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -68,13 +69,13 @@ class _LoginPageState extends State<LoginPage> {
 
                   Column(
                     children: [
-                      _buildTextField(
+                      buildTextField(
                         controller: _emailController,
                         label: 'Email',
                         keyboardType: TextInputType.emailAddress,
                       ),
                       SizedBox(height: 20),
-                      _buildTextField(
+                      buildTextField(
                         controller: _passwordController,
                         label: "Password",
                         obscureText: true,
@@ -88,6 +89,13 @@ class _LoginPageState extends State<LoginPage> {
                     width: double.infinity,
                     child: ElevatedButton(
                       onPressed: state is LoginLoading ? null : _onLoginPressed,
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.blue,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadiusGeometry.circular(30),
+                        ),
+                      ),
                       child: state is LoginLoading
                           ? const SizedBox(
                               height: 18,
@@ -104,6 +112,8 @@ class _LoginPageState extends State<LoginPage> {
                     ),
                   ),
 
+                  const SizedBox(height: 20),
+
                   GestureDetector(
                     child: const Text(
                       "Don't have an acoount? Register here",
@@ -116,47 +126,10 @@ class _LoginPageState extends State<LoginPage> {
                       Navigator.pushReplacementNamed(context, '/register');
                     },
                   ),
-                  if (state is LoginFailure)
-                    Text(
-                      state.message,
-                      style: const TextStyle(color: Colors.red),
-                    ),
-                  if (state is LoginSuccess)
-                    Text(
-                      "Login successfully!",
-                      style: const TextStyle(color: Colors.green),
-                    ),
                 ],
               );
             },
           ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildTextField({
-    required TextEditingController controller,
-    required String label,
-    bool obscureText = false,
-    TextInputType keyboardType = TextInputType.text,
-    String? Function(String?)? validator,
-  }) {
-    return TextFormField(
-      controller: controller,
-      keyboardType: keyboardType,
-      obscureText: obscureText,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: label,
-        labelStyle: const TextStyle(color: Colors.grey),
-        enabledBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.grey),
-          borderRadius: BorderRadius.circular(12),
-        ),
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(color: Colors.blue),
-          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );
