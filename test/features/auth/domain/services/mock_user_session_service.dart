@@ -26,4 +26,10 @@ class MockUserSessionService implements UserSessionService {
   Future<void> getUserId() {
     throw UnimplementedError();
   }
+
+  @override
+  Future<void> saveUserId({required String userId}) {
+    // TODO: implement saveUserId
+    throw UnimplementedError();
+  }
 }

@@ -9,6 +9,10 @@ class UserSessionService {
     await sessionLocalDataSource.saveToken(token: token);
   }
 
+  Future<void> saveUserId({required String userId}) async {
+    await sessionLocalDataSource.saveUserId(userId: userId);
+  }
+
   Future<String?> getUserSession() {
     return sessionLocalDataSource.getToken();
   }
