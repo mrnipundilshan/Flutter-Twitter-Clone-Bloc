@@ -8,41 +8,57 @@ class PostCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      elevation: 2,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          //Top row : avatr + username + timestamp
           Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              Text(
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
+              CircleAvatar(radius: 20, backgroundColor: Colors.grey),
+              const SizedBox(width: 10),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Text(
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          post.username,
+                        ),
+                        const SizedBox(height: 10),
+                        const Spacer(),
+                        Text(
+                          style: const TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                            color: Colors.white,
+                          ),
+                          formatDate(post.createdAt),
+                        ),
+                      ],
+                    ),
+                    const SizedBox(height: 10),
+                    Text(
+                      style: const TextStyle(fontSize: 16, color: Colors.white),
+                      post.content * 40,
+                    ),
+                  ],
                 ),
-                post.username,
-              ),
-              const SizedBox(height: 10),
-              Text(
-                style: const TextStyle(
-                  fontWeight: FontWeight.bold,
-                  fontSize: 16,
-                ),
-                formatDate(post.createdAt),
               ),
             ],
           ),
 
-          const SizedBox(height: 10),
-          Text(
-            style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 16),
-            post.content,
-          ),
-
           if (post.imageUrl != null && post.imageUrl!.isEmpty) ...[
-            const SizedBox(height: 10),
+            const SizedBox(height: 12),
             ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(10),
               child: Image.network(post.imageUrl!),
@@ -56,6 +72,7 @@ class PostCard extends StatelessWidget {
               _postStat(icon: Icons.favorite_border, count: post.likesCount),
               _postStat(icon: Icons.favorite_border, count: post.commentsCount),
               _postStat(icon: Icons.favorite_border, count: post.repostsCount),
+              const Icon(Icons.share, color: Colors.grey, size: 20),
             ],
           ),
         ],
@@ -75,7 +92,10 @@ class _postStat extends StatelessWidget {
       children: [
         Icon(icon, size: 18, color: Colors.grey),
         SizedBox(width: 10),
-        Text('${count ?? 0}', style: const TextStyle(fontSize: 15)),
+        Text(
+          '${count ?? 0}',
+          style: const TextStyle(fontSize: 15, color: Colors.grey),
+        ),
       ],
     );
   }

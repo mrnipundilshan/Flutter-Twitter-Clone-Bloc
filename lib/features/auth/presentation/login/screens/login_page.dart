@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/presentation/login/bloc/login_event.dart';
@@ -27,7 +28,7 @@ class _LoginPageState extends State<LoginPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text("Login")),
+      backgroundColor: Colors.black,
       body: Padding(
         padding: const EdgeInsets.all(16),
         child: BlocListener<LoginBloc, LoginState>(
@@ -53,28 +54,68 @@ class _LoginPageState extends State<LoginPage> {
                 return const Center(child: CircularProgressIndicator());
               }
               return Column(
-                crossAxisAlignment: CrossAxisAlignment.stretch,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
-                  TextField(
-                    controller: _emailController,
-                    decoration: const InputDecoration(labelText: 'Email'),
+                  const SizedBox(height: 40),
+                  Center(
+                    child: Image.asset(
+                      'assets/twitter.png',
+                      width: 48,
+                      height: 48,
+                    ),
                   ),
-                  TextField(
-                    controller: _passwordController,
-                    decoration: const InputDecoration(labelText: 'Password'),
+                  const SizedBox(height: 40),
+
+                  Column(
+                    children: [
+                      _buildTextField(
+                        controller: _emailController,
+                        label: 'Email',
+                        keyboardType: TextInputType.emailAddress,
+                      ),
+                      SizedBox(height: 20),
+                      _buildTextField(
+                        controller: _passwordController,
+                        label: "Password",
+                        obscureText: true,
+                      ),
+                    ],
                   ),
-                  const SizedBox(height: 20),
-                  TextButton(
-                    onPressed: () {
+
+                  const SizedBox(height: 30),
+
+                  SizedBox(
+                    width: double.infinity,
+                    child: ElevatedButton(
+                      onPressed: state is LoginLoading ? null : _onLoginPressed,
+                      child: state is LoginLoading
+                          ? const SizedBox(
+                              height: 18,
+                              width: 18,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
+                              ),
+                            )
+                          : const Text(
+                              "Login",
+                              style: TextStyle(color: Colors.white),
+                            ),
+                    ),
+                  ),
+
+                  GestureDetector(
+                    child: const Text(
+                      "Don't have an acoount? Register here",
+                      style: TextStyle(
+                        color: Colors.blue,
+                        decoration: TextDecoration.underline,
+                      ),
+                    ),
+                    onTap: () {
                       Navigator.pushReplacementNamed(context, '/register');
                     },
-                    child: const Text("Don't have an acoount? Register here"),
                   ),
-                  ElevatedButton(
-                    onPressed: _onLoginPressed,
-                    child: const Text("Login"),
-                  ),
-                  const SizedBox(height: 20),
                   if (state is LoginFailure)
                     Text(
                       state.message,
@@ -89,6 +130,33 @@ class _LoginPageState extends State<LoginPage> {
               );
             },
           ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildTextField({
+    required TextEditingController controller,
+    required String label,
+    bool obscureText = false,
+    TextInputType keyboardType = TextInputType.text,
+    String? Function(String?)? validator,
+  }) {
+    return TextFormField(
+      controller: controller,
+      keyboardType: keyboardType,
+      obscureText: obscureText,
+      validator: validator,
+      decoration: InputDecoration(
+        labelText: label,
+        labelStyle: const TextStyle(color: Colors.grey),
+        enabledBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.grey),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderSide: const BorderSide(color: Colors.blue),
+          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );

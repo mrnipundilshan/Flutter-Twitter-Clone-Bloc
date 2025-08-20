@@ -64,69 +64,26 @@ class _FeedPageState extends State<FeedPage> {
         },
       ),
       floatingActionButton: FloatingActionButton(
-        onPressed: () => _showCreatePostDialog(context),
+        onPressed: () => _showCreatePostModel(context),
         backgroundColor: Colors.blue,
         child: const Icon(CupertinoIcons.add, color: Colors.white),
       ),
     );
   }
 
-  void _showCreatePostDialog(BuildContext context) {
+  void _showCreatePostModel(BuildContext context) {
     final TextEditingController contentController = TextEditingController();
     final formKey = GlobalKey<FormState>();
 
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.black,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+      ),
       builder: (context) {
         return BlocConsumer<CreatePostBloc, CreatePostState>(
-          builder: (context, state) {
-            return AlertDialog(
-              title: const Text('Create Post'),
-              content: Form(
-                key: formKey,
-                child: TextFormField(
-                  controller: contentController,
-                  decoration: const InputDecoration(
-                    hintText: "What's happening",
-                  ),
-                  maxLines: 5,
-                  validator: (value) => value == null || value.trim().isEmpty
-                      ? 'Content is required'
-                      : null,
-                ),
-              ),
-              actions: [
-                TextButton(
-                  onPressed: () => Navigator.pop(context),
-                  child: const Text('Cancel'),
-                ),
-                ElevatedButton(
-                  onPressed: state is CreatePostLoading
-                      ? null
-                      : () {
-                          if (formKey.currentState!.validate()) {
-                            context.read<CreatePostBloc>().add(
-                              CreatePostRequested(
-                                username: '1234',
-
-                                userId: 'nipun@123',
-                                content: contentController.text.trim(),
-                                imageUrl: '',
-                              ),
-                            );
-                          }
-                        },
-                  child: state is CreatePostLoading
-                      ? const SizedBox(
-                          height: 16,
-                          width: 16,
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        )
-                      : const Text('Post'),
-                ),
-              ],
-            );
-          },
           listener: (contetn, state) {
             if (state is CreatePostSuccess) {
               Navigator.pop(context);
@@ -140,6 +97,91 @@ class _FeedPageState extends State<FeedPage> {
                 context,
               ).showSnackBar(SnackBar(content: Text(state.message)));
             }
+          },
+          builder: (context, state) {
+            return SizedBox(
+              height: MediaQuery.of(context).size.height / 2,
+              child: Padding(
+                padding: const EdgeInsets.all(16),
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const CircleAvatar(
+                            radius: 20,
+                            backgroundColor: Colors.grey,
+                          ),
+                          SizedBox(width: 20),
+                          Expanded(
+                            child: TextFormField(
+                              controller: contentController,
+                              maxLines: null,
+                              style: const TextStyle(color: Colors.white),
+                              decoration: InputDecoration(
+                                hintText: "What's happening?",
+                                hintStyle: TextStyle(color: Colors.grey),
+                                border: InputBorder.none,
+                              ),
+                              validator: (value) =>
+                                  value == null || value.trim().isEmpty
+                                  ? 'Content is Required'
+                                  : null,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+                      Align(
+                        alignment: Alignment.centerRight,
+                        child: ElevatedButton(
+                          onPressed: state is CreatePostLoading
+                              ? null
+                              : () {
+                                  if (formKey.currentState!.validate()) {
+                                    context.read<CreatePostBloc>().add(
+                                      CreatePostRequested(
+                                        username: '1234',
+
+                                        userId: 'nipun@123',
+                                        content: contentController.text.trim(),
+                                        imageUrl: '',
+                                      ),
+                                    );
+                                  }
+                                },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: Colors.blue,
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 20,
+                              vertical: 12,
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
+                          child: state is CreatePostLoading
+                              ? const SizedBox(
+                                  height: 16,
+                                  width: 16,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                  ),
+                                )
+                              : const Text(
+                                  'Post',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
           },
         );
       },
