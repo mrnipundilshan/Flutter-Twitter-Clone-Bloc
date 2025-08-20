@@ -13,6 +13,10 @@ class UserSessionService {
     return sessionLocalDataSource.getToken();
   }
 
+  Future<void> getUserId() {
+    return sessionLocalDataSource.getToken();
+  }
+
   Future<void> logout() {
     return sessionLocalDataSource.deleteToken();
   }

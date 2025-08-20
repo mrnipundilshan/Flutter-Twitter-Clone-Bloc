@@ -21,4 +21,9 @@ class MockUserSessionService implements UserSessionService {
   @override
   SessionLocaDataSource get sessionLocalDataSource =>
       throw UnimplementedError();
+
+  @override
+  Future<void> getUserId() {
+    throw UnimplementedError();
+  }
 }
