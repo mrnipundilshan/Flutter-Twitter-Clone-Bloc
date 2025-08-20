@@ -56,4 +56,6 @@ class PostEntity {
       'reposts_count': repostsCount,
     };
   }
+
+  bool hasImage() => imageUrl != null && imageUrl!.isNotEmpty;
 }
