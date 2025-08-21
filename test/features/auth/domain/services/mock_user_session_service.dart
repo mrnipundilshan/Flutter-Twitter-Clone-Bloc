@@ -12,22 +12,8 @@ class MockUserSessionService implements UserSessionService {
   Future<void> logout() async {}
 
   @override
-  Future<void> persistToken({required String token}) async {}
-
-  @override
   SessionLocaDataSource get sessionLocalDataSource =>
       throw UnimplementedError();
-
-  @override
-  Future<void> getUserId() {
-    throw UnimplementedError();
-  }
-
-  @override
-  Future<void> saveUserId({required String userId}) {
-    // TODO: implement saveUserId
-    throw UnimplementedError();
-  }
 
   @override
   Future<UserSessionEntity?> getUserSession() {

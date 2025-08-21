@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/services/user_session_service.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/feed_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/feed_event.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/feed_state.dart';
@@ -140,17 +141,25 @@ class _FeedPageState extends State<FeedPage> {
                         child: ElevatedButton(
                           onPressed: state is CreatePostLoading
                               ? null
-                              : () {
+                              : () async {
                                   if (formKey.currentState!.validate()) {
-                                    context.read<CreatePostBloc>().add(
-                                      CreatePostRequested(
-                                        username: '1234',
+                                    final userSession = await context
+                                        .read<UserSessionService>()
+                                        .getUserSession();
 
-                                        userId: 'nipun@123',
-                                        content: contentController.text.trim(),
-                                        imageUrl: '',
-                                      ),
-                                    );
+                                    if (userSession != null) {
+                                      context.read<CreatePostBloc>().add(
+                                        CreatePostRequested(
+                                          userId: userSession.id,
+                                          username: userSession.email,
+
+                                          content: contentController.text
+                                              .trim(),
+                                          imageUrl: '',
+                                        ),
+                                      );
+                                    }
+                                    ;
                                   }
                                 },
                           style: ElevatedButton.styleFrom(

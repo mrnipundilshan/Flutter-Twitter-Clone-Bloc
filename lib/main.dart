@@ -17,6 +17,7 @@ import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/post/create_post_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/screens/feed_page.dart';
 import 'package:flutter_twitter_clone_bloc/features/splash/splash_page.dart';
+import 'package:provider/provider.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
 
 void main() async {
@@ -42,54 +43,57 @@ class MainApp extends StatelessWidget {
     final UserSessionService userSessionService = UserSessionService(
       sessionLocalDataSource: sessionLocalDataSource,
     );
-    return MultiBlocProvider(
-      providers: [
-        BlocProvider(
-          create: (_) => RegisterBloc(
-            registerUseCase: RegisterUseCase(
-              authRepository: SupabaseAuthRepository(client: supabase),
-            ),
-            userSessionService: userSessionService,
-          ),
-        ),
-
-        BlocProvider(
-          create: (_) => LoginBloc(
-            loginUseCase: LoginUseCase(
-              authRepository: SupabaseAuthRepository(client: supabase),
-            ),
-            userSessionService: userSessionService,
-          ),
-        ),
-
-        BlocProvider(
-          create: (_) => FeedBloc(
-            fetchPostsUseCase: FetchPostsUseCase(
-              postRepository: SupabasePostRespository(client: supabase),
+    return Provider<UserSessionService>.value(
+      value: userSessionService,
+      child: MultiBlocProvider(
+        providers: [
+          BlocProvider(
+            create: (_) => RegisterBloc(
+              registerUseCase: RegisterUseCase(
+                authRepository: SupabaseAuthRepository(client: supabase),
+              ),
+              userSessionService: userSessionService,
             ),
           ),
-        ),
 
-        BlocProvider(
-          create: (_) => CreatePostBloc(
-            createPostUseCase: CreatePostUseCase(
-              postRepository: SupabasePostRespository(client: supabase),
+          BlocProvider(
+            create: (_) => LoginBloc(
+              loginUseCase: LoginUseCase(
+                authRepository: SupabaseAuthRepository(client: supabase),
+              ),
+              userSessionService: userSessionService,
             ),
           ),
-        ),
-      ],
-      child: MaterialApp(
-        title: "Twitter Demo",
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        ),
 
-        routes: {
-          '/register': (_) => const RegisterPage(),
-          '/login': (_) => const LoginPage(),
-          '/home': (_) => const FeedPage(),
-        },
-        home: SplashPage(userSessionService: userSessionService),
+          BlocProvider(
+            create: (_) => FeedBloc(
+              fetchPostsUseCase: FetchPostsUseCase(
+                postRepository: SupabasePostRespository(client: supabase),
+              ),
+            ),
+          ),
+
+          BlocProvider(
+            create: (_) => CreatePostBloc(
+              createPostUseCase: CreatePostUseCase(
+                postRepository: SupabasePostRespository(client: supabase),
+              ),
+            ),
+          ),
+        ],
+        child: MaterialApp(
+          title: "Twitter Demo",
+          theme: ThemeData(
+            colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+          ),
+
+          routes: {
+            '/register': (_) => const RegisterPage(),
+            '/login': (_) => const LoginPage(),
+            '/home': (_) => const FeedPage(),
+          },
+          home: SplashPage(userSessionService: userSessionService),
+        ),
       ),
     );
   }

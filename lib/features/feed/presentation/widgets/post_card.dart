@@ -48,7 +48,7 @@ class PostCard extends StatelessWidget {
                     const SizedBox(height: 10),
                     Text(
                       style: const TextStyle(fontSize: 16, color: Colors.white),
-                      post.content * 40,
+                      post.content,
                     ),
                   ],
                 ),
@@ -56,7 +56,7 @@ class PostCard extends StatelessWidget {
             ],
           ),
 
-          if (post.imageUrl != null && post.imageUrl!.isEmpty) ...[
+          if (post.imageUrl != null && post.imageUrl!.isNotEmpty) ...[
             const SizedBox(height: 12),
             ClipRRect(
               borderRadius: BorderRadiusGeometry.circular(10),
