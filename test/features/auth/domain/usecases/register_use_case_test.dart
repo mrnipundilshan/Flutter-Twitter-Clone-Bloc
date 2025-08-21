@@ -1,4 +1,5 @@
 import 'package:flutter_test/flutter_test.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/entities/user_session_entity.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/usecases/register_use_case.dart';
 
 import '../../data/repository/MockAuthRepository.dart';
@@ -25,7 +26,9 @@ void main() {
         username: username,
         password: password,
       );
-      expect(result, 'token');
+      expect(result, isA<UserSessionEntity>());
+      expect(result.email, email);
+      expect(result.token, 'token');
     });
 
     test('Should return an error with empty email', () async {

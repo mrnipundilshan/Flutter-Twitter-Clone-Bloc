@@ -19,11 +19,11 @@ class LoginBloc extends Bloc<LoginEvent, LoginState> {
   Future<void> _onLoginSubmitted(LoginSubmitted event, emit) async {
     emit(LoginLoading());
     try {
-      final token = await loginUseCase.call(
+      final userSession = await loginUseCase.call(
         email: event.email,
         password: event.password,
       );
-      await userSessionService.persistToken(token: token);
+      await userSessionService.persistSession(userSession: userSession);
       // await userSessionService.saveUserId(userId: token);
       emit(LoginSuccess());
     } catch (e) {

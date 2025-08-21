@@ -1,4 +1,5 @@
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/entities/user_entity.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/entities/user_session_entity.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/models/LoginParams.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/repository/auth_repository.dart';
 import 'package:supabase_flutter/supabase_flutter.dart';
@@ -9,7 +10,7 @@ class SupabaseAuthRepository implements AuthRepository {
   SupabaseAuthRepository({required this.client});
 
   @override
-  Future<String> login({required LoginParams loginParams}) async {
+  Future<UserSessionEntity> login({required LoginParams loginParams}) async {
     try {
       final response = await client.auth.signInWithPassword(
         email: loginParams.email,
@@ -20,7 +21,13 @@ class SupabaseAuthRepository implements AuthRepository {
         throw Exception('Invalid Session');
       }
 
-      return session.accessToken;
+      final userSession = UserSessionEntity(
+        id: session.user.id,
+        email: session.user.email!,
+        token: session.accessToken,
+      );
+
+      return userSession;
     } on AuthException catch (e) {
       throw Exception(e.message);
     } catch (e) {
@@ -29,7 +36,7 @@ class SupabaseAuthRepository implements AuthRepository {
   }
 
   @override
-  Future<String> register({required UserEntity user}) async {
+  Future<UserSessionEntity> register({required UserEntity user}) async {
     try {
       final response = await client.auth.signUp(
         password: user.password,
@@ -42,7 +49,13 @@ class SupabaseAuthRepository implements AuthRepository {
         throw Exception('Invalid session');
       }
 
-      return session.accessToken;
+      final userSession = UserSessionEntity(
+        id: session.user.id,
+        email: session.user.email!,
+        token: session.accessToken,
+      );
+
+      return userSession;
     } catch (e) {
       throw Exception('Register failed');
     }

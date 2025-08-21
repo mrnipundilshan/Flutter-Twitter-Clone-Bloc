@@ -1,32 +1,25 @@
 import 'package:flutter_twitter_clone_bloc/features/auth/data/datasources/session_local_data_source.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/entities/user_session_entity.dart';
 
 class UserSessionService {
   final SessionLocaDataSource sessionLocalDataSource;
 
   UserSessionService({required this.sessionLocalDataSource});
 
-  Future<void> persistToken({required String token}) async {
-    await sessionLocalDataSource.saveToken(token: token);
+  Future<void> persistSession({required UserSessionEntity userSession}) async {
+    await sessionLocalDataSource.saveSession(session: userSession);
   }
 
-  Future<void> saveUserId({required String userId}) async {
-    await sessionLocalDataSource.saveUserId(userId: userId);
-  }
-
-  Future<String?> getUserSession() {
-    return sessionLocalDataSource.getToken();
-  }
-
-  Future<void> getUserId() {
-    return sessionLocalDataSource.getToken();
+  Future<UserSessionEntity?> getUserSession() {
+    return sessionLocalDataSource.getSession();
   }
 
   Future<void> logout() {
-    return sessionLocalDataSource.deleteToken();
+    return sessionLocalDataSource.clearSession();
   }
 
   Future<bool> isLoggedIn() async {
-    final token = await sessionLocalDataSource.getToken();
-    return token != null && token.isNotEmpty;
+    final session = await sessionLocalDataSource.getSession();
+    return session != null && session.token.isNotEmpty;
   }
 }

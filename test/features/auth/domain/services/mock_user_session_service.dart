@@ -1,12 +1,8 @@
 import 'package:flutter_twitter_clone_bloc/features/auth/data/datasources/session_local_data_source.dart';
+import 'package:flutter_twitter_clone_bloc/features/auth/domain/entities/user_session_entity.dart';
 import 'package:flutter_twitter_clone_bloc/features/auth/domain/services/user_session_service.dart';
 
 class MockUserSessionService implements UserSessionService {
-  @override
-  Future<String?> getUserSession() async {
-    return 'mock_token';
-  }
-
   @override
   Future<bool> isLoggedIn() async {
     return true;
@@ -32,4 +28,12 @@ class MockUserSessionService implements UserSessionService {
     // TODO: implement saveUserId
     throw UnimplementedError();
   }
+
+  @override
+  Future<UserSessionEntity?> getUserSession() {
+    throw UnimplementedError();
+  }
+
+  @override
+  Future<void> persistSession({required UserSessionEntity userSession}) async {}
 }
