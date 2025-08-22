@@ -65,15 +65,13 @@ class SupabasePostRespository implements PostRepository {
             .eq('post_id', postId);
 
         await client
-            .from(likesTableName)
+            .from(postsTableName)
             .update({'likes_count': currentLikes - 1})
             .eq('id', postId);
       } else {
         await client.from(likesTableName).insert({
-          'user_id',
-          userId,
-          'post_id',
-          postId,
+          'user_id': userId,
+          'post_id': postId,
         });
         await client
             .from(postsTableName)
