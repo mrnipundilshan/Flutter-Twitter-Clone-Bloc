@@ -13,6 +13,7 @@ import 'package:flutter_twitter_clone_bloc/features/auth/presentation/register/s
 import 'package:flutter_twitter_clone_bloc/features/feed/data/repository/supabase_post_respository.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/domain/usecases/create_post_use_case.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/domain/usecases/fetch_posts_use_case.dart';
+import 'package:flutter_twitter_clone_bloc/features/feed/domain/usecases/like_post_use_case.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/feed/feed_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/bloc/post/create_post_bloc.dart';
 import 'package:flutter_twitter_clone_bloc/features/feed/presentation/screens/feed_page.dart';
@@ -68,6 +69,9 @@ class MainApp extends StatelessWidget {
           BlocProvider(
             create: (_) => FeedBloc(
               fetchPostsUseCase: FetchPostsUseCase(
+                postRepository: SupabasePostRespository(client: supabase),
+              ),
+              likePostUseCase: LikePostUseCase(
                 postRepository: SupabasePostRespository(client: supabase),
               ),
             ),
