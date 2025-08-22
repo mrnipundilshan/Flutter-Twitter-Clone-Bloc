@@ -4,7 +4,8 @@ import 'package:supabase_flutter/supabase_flutter.dart';
 
 class SupabasePostRespository implements PostRepository {
   final SupabaseClient client;
-  String tableName = 'posts';
+  String postsTableName = 'posts';
+  String likesTableName = 'likes';
 
   SupabasePostRespository({required this.client});
 
@@ -12,7 +13,7 @@ class SupabasePostRespository implements PostRepository {
   Future<bool> createPost({required PostEntity post}) async {
     try {
       final data = post.toJson();
-      await client.from(tableName).insert(data);
+      await client.from(postsTableName).insert(data);
       return true;
     } catch (e) {
       throw Exception('Failed to create post: $e');
@@ -33,5 +34,29 @@ class SupabasePostRespository implements PostRepository {
     } catch (e) {
       throw Exception("Failed to fetch posts :$e");
     }
+  }
+
+  @override
+  Future<bool> likePost({
+    required String userId,
+    required String postId,
+  }) async {
+    try {
+      final response = await client
+          .from(likesTableName)
+          .select('likes_count')
+          .eq('id', postId)
+          .single();
+
+      final currentLikes = response['likes_count'] ?? 0;
+
+      await client
+          .from(postsTableName)
+          .update({'likes_count': currentLikes + 1})
+          .eq('id', postId);
+    } catch (e) {
+      throw Exception('Failed to like post: $e');
+    }
+    return true;
   }
 }
