@@ -37,7 +37,7 @@ class FeedBloc extends Bloc<FeedEvent, FeedState> {
   ) async {
     try {
       await likePostUseCase.call(userId: event.userId, postId: event.postId);
-      //emit(FetchPostsRequested());
+      add(FetchPostsRequested());
     } catch (e) {
       emit(FeedFailure(message: formatError(e)));
     }

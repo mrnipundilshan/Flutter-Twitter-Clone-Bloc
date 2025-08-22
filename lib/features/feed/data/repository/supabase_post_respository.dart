@@ -43,20 +43,47 @@ class SupabasePostRespository implements PostRepository {
   }) async {
     try {
       final response = await client
-          .from(likesTableName)
+          .from(postsTableName)
           .select('likes_count')
           .eq('id', postId)
           .single();
 
       final currentLikes = response['likes_count'] ?? 0;
 
-      await client
-          .from(postsTableName)
-          .update({'likes_count': currentLikes + 1})
-          .eq('id', postId);
+      final existingLike = await client
+          .from(likesTableName)
+          .select()
+          .eq('user_id', userId)
+          .eq('post_id', postId)
+          .maybeSingle();
+
+      if (existingLike != null) {
+        await client
+            .from(likesTableName)
+            .delete()
+            .eq('user_id', userId)
+            .eq('post_id', postId);
+
+        await client
+            .from(likesTableName)
+            .update({'likes_count': currentLikes - 1})
+            .eq('id', postId);
+      } else {
+        await client.from(likesTableName).insert({
+          'user_id',
+          userId,
+          'post_id',
+          postId,
+        });
+        await client
+            .from(postsTableName)
+            .update({'likes_count': currentLikes + 1})
+            .eq('id', postId);
+      }
+
+      return true;
     } catch (e) {
       throw Exception('Failed to like post: $e');
     }
-    return true;
   }
 }
