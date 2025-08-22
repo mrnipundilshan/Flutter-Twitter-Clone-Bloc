@@ -59,12 +59,28 @@ class PostEntity {
     };
   }
 
-  PostEntity copyWith({bool? isLikedBycurrentUser}) {
+  PostEntity copyWith({
+    String? id,
+    String? userId,
+    String? username,
+    String? content,
+    DateTime? createdAt,
+    int? likesCount,
+    int? commentsCount,
+    int? repostsCount,
+    String? imageUrl,
+    bool? isLikedBycurrentUser,
+  }) {
     return PostEntity(
-      userId: userId,
-      username: username,
-      content: content,
-      createdAt: createdAt,
+      id: id ?? this.id,
+      userId: userId ?? this.userId,
+      username: username ?? this.username,
+      content: content ?? this.content,
+      createdAt: createdAt ?? this.createdAt,
+      likesCount: likesCount ?? this.likesCount,
+      commentsCount: commentsCount ?? this.commentsCount,
+      repostsCount: repostsCount ?? this.repostsCount,
+      imageUrl: imageUrl ?? this.imageUrl,
       isLikedBycurrentUser: isLikedBycurrentUser ?? this.isLikedBycurrentUser,
     );
   }

@@ -73,8 +73,13 @@ class PostCard extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               _postStat(
-                icon: Icons.favorite_border,
+                icon: post.isLikedBycurrentUser == true
+                    ? Icons.favorite
+                    : Icons.favorite_border,
                 count: post.likesCount,
+                iconColor: post.isLikedBycurrentUser == true
+                    ? Colors.blue
+                    : Colors.grey,
                 onTap: () {
                   final userSessionService = context.read<UserSessionService>();
                   userSessionService.getUserSession().then((session) {
@@ -107,6 +112,7 @@ class PostCard extends StatelessWidget {
 
 class _postStat extends StatelessWidget {
   final IconData icon;
+  final Color? iconColor;
   final int? count;
   final VoidCallback onTap;
   const _postStat({
@@ -114,6 +120,7 @@ class _postStat extends StatelessWidget {
     required this.icon,
     this.count,
     required this.onTap,
+    this.iconColor,
   });
 
   @override
@@ -122,7 +129,7 @@ class _postStat extends StatelessWidget {
       onTap: onTap,
       child: Row(
         children: [
-          Icon(icon, size: 18, color: Colors.grey),
+          Icon(icon, size: 18, color: iconColor ?? Colors.grey),
           SizedBox(width: 10),
           Text(
             '${count ?? 0}',
