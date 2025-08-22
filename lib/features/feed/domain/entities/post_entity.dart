@@ -8,6 +8,7 @@ class PostEntity {
   final int? commentsCount;
   final int? repostsCount;
   final String? imageUrl;
+  final bool? isLikedBycurrentUser;
 
   PostEntity({
     this.id,
@@ -19,6 +20,7 @@ class PostEntity {
     this.commentsCount,
     this.repostsCount,
     this.imageUrl,
+    this.isLikedBycurrentUser,
   }) {
     if (username.trim().isEmpty) {
       throw Exception("Username cannot be empty");
@@ -55,6 +57,16 @@ class PostEntity {
       'comments_count': commentsCount,
       'reposts_count': repostsCount,
     };
+  }
+
+  PostEntity copyWith({bool? isLikedBycurrentUser}) {
+    return PostEntity(
+      userId: userId,
+      username: username,
+      content: content,
+      createdAt: createdAt,
+      isLikedBycurrentUser: isLikedBycurrentUser ?? this.isLikedBycurrentUser,
+    );
   }
 
   bool hasImage() => imageUrl != null && imageUrl!.isNotEmpty;

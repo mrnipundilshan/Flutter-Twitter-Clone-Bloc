@@ -21,15 +21,26 @@ class SupabasePostRespository implements PostRepository {
   }
 
   @override
-  Future<List<PostEntity>> fetchPosts() async {
+  Future<List<PostEntity>> fetchPosts({String? currentUserId}) async {
     try {
-      final response = await client
+      final postResponse = await client
           .from('posts')
           .select()
           .order('created_at', ascending: false);
 
-      return (response as List).map((json) {
-        return PostEntity.fromJson(json);
+      final likesResponse = await client
+          .from(likesTableName)
+          .select('post_id')
+          .eq('user_id', currentUserId ?? '');
+
+      final likedPostIds = (likesResponse as List)
+          .map((like) => like['post_id'] as String)
+          .toSet();
+
+      return (postResponse as List).map((json) {
+        final post = PostEntity.fromJson(json);
+        final isLiked = likedPostIds.contains(post.id);
+        return post.copyWith(isLikedBycurrentUser: isLiked);
       }).toList();
     } catch (e) {
       throw Exception("Failed to fetch posts :$e");

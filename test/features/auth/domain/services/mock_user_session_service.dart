@@ -16,8 +16,12 @@ class MockUserSessionService implements UserSessionService {
       throw UnimplementedError();
 
   @override
-  Future<UserSessionEntity?> getUserSession() {
-    throw UnimplementedError();
+  Future<UserSessionEntity?> getUserSession() async {
+    return UserSessionEntity(
+      id: '123',
+      email: 'nipun@gmail.com',
+      token: 'token',
+    );
   }
 
   @override

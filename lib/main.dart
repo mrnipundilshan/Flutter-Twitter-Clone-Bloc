@@ -74,6 +74,7 @@ class MainApp extends StatelessWidget {
               likePostUseCase: LikePostUseCase(
                 postRepository: SupabasePostRespository(client: supabase),
               ),
+              userSessionService: userSessionService,
             ),
           ),
 

@@ -3,7 +3,7 @@ import 'package:flutter_twitter_clone_bloc/features/feed/domain/repository/post_
 
 class MockPostsRepository implements PostRepository {
   @override
-  Future<List<PostEntity>> fetchPosts() async {
+  Future<List<PostEntity>> fetchPosts({String? currentUserId}) async {
     return [
       PostEntity(
         userId: '1',
@@ -30,7 +30,7 @@ class MockPostsRepository implements PostRepository {
 
 class MockPostsWithErrorRepository implements PostRepository {
   @override
-  Future<List<PostEntity>> fetchPosts() {
+  Future<List<PostEntity>> fetchPosts({String? currentUserId}) {
     throw Exception('Something Broke');
   }
 
