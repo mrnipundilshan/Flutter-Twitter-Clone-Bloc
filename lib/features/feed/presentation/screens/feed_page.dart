@@ -43,6 +43,14 @@ class _FeedPageState extends State<FeedPage> {
             onPressed: () {},
             icon: Icon(CupertinoIcons.mail, color: Colors.white),
           ),
+
+          IconButton(
+            onPressed: () async {
+              await context.read<UserSessionService>().logout();
+              Navigator.pushReplacementNamed(context, '/splash');
+            },
+            icon: Icon(CupertinoIcons.square_arrow_right, color: Colors.white),
+          ),
         ],
       ),
       body: BlocBuilder<FeedBloc, FeedState>(
@@ -151,7 +159,9 @@ class _FeedPageState extends State<FeedPage> {
                                       context.read<CreatePostBloc>().add(
                                         CreatePostRequested(
                                           userId: userSession.id,
-                                          username: userSession.email,
+                                          username: userSession.email
+                                              .split('@')
+                                              .first,
 
                                           content: contentController.text
                                               .trim(),

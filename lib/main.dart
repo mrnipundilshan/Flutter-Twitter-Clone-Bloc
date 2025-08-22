@@ -91,6 +91,8 @@ class MainApp extends StatelessWidget {
             '/register': (_) => const RegisterPage(),
             '/login': (_) => const LoginPage(),
             '/home': (_) => const FeedPage(),
+            '/splash': (_) =>
+                SplashPage(userSessionService: userSessionService),
           },
           home: SplashPage(userSessionService: userSessionService),
         ),

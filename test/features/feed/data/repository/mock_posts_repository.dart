@@ -18,6 +18,14 @@ class MockPostsRepository implements PostRepository {
   Future<bool> createPost({required PostEntity post}) async {
     return true;
   }
+
+  @override
+  Future<bool> likePost({
+    required String userId,
+    required String postId,
+  }) async {
+    return true;
+  }
 }
 
 class MockPostsWithErrorRepository implements PostRepository {
@@ -28,6 +36,11 @@ class MockPostsWithErrorRepository implements PostRepository {
 
   @override
   Future<bool> createPost({required PostEntity post}) async {
+    throw Exception('Something Broke');
+  }
+
+  @override
+  Future<bool> likePost({required String userId, required String postId}) {
     throw Exception('Something Broke');
   }
 }
